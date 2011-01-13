@@ -1,0 +1,28 @@
+// ************************************************
+// ----- READ ME for system config
+
+This directory contains configuration files for the system. The file cnf_system.php is 
+a php file with core configuration.
+
+---
+
+The files cron_* are meant to be crons that do system cleanup/loggin/stats collecting. To
+set a cron run 
+
+crontab -e
+
+command as an admin and add the following line to crontab (assuming that the path
+to php5 is correct and the path to the script is correct)
+
+*/10 * * * * /usr/bin/php5 /srv/www/boomba/system/config/cron_10min.php
+0 2 * * *    /usr/bin/php5 /srv/www/boomba/system/config/cron_daily.php
+
+
+There is one thing inside of cron_10min.php. It must contain correct path to system 
+commands: uptime and ifconfig. Line 11 and 27.
+
+---
+
+The files php_* are ment to be prepend and append file as it is defined in php.ini file. The perpend 
+file makes sure that the content output to the browser is zipped. This feature will minimize the 
+bandwidth.
