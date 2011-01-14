@@ -1,4 +1,6 @@
-# Web 2.0 File Manager - Browser Based File Manager
+# Web 2.0 File Manager
+
+Web based file manager with mutli file operations, multi file upload, archiving/unarchiving utilities, etc.
 
 ## Installation
 
@@ -12,4 +14,6 @@ to work with the files with. By default, it will allow to work with one of the d
 
 ## Demo
 
-You can see the demo of the application at http://web20boom.com/demo/fm. User: demo, pass: demo
+You can see the demo of the application at [[http://web20boom.com/demo/fm]].
+* User: demo
+* pass: demo
