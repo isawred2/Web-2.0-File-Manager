@@ -14,7 +14,8 @@ to work with the files with. By default, it will allow to work with one of the d
 
 ## Demo
 
-You can see the demo of the application at [http://web20boom.com/demo/fm](http://web20boom.com/demo/fm).
+You can see the demo of the application at 
 
+* [http://web20boom.com/demo/fm](http://web20boom.com/demo/fm)
 * User: demo
 * pass: demo
