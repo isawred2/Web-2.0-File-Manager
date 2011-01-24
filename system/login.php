@@ -11,11 +11,11 @@
 *
 ********************************************************/
 
-$output  = false;
+$output  = false; 
 $outside = true;
 require("security.php");
 
-if ($def_dbUsers == true) {
+if ($def_dbInit == true) {
 	$sql = "SELECT key_data FROM ".$sys_dbPrefix."sys_params WHERE key_name = 'crm_login_image'";
 	$rs  = $db->execute($sql);
 	$login_image = $rs->fields[0];
@@ -31,7 +31,7 @@ $pass    = addslashes($_POST['pass']);
 
 // --- regular login
 if ($login != "" && $pass != "" && $cportal === false) {	
-	if ($def_dbUsers == true) {
+	if ($def_dbInit == true) {
 		// find user
 		$sql = "SELECT userid FROM ".$sys_dbPrefix."sys_users WHERE login ILIKE '$login'";
 		$rs  = $db->execute($sql);
@@ -197,7 +197,7 @@ function saveLoginLog($status) {
 	global $login, $ses_userid;
 	global $try_user, $cportal;
 	
-	if ($def_dbUsers !== true) return;
+	if ($def_dbInit !== true) return;
 	
 	$userid = ($try_user ? $try_user: 'null');
 	$status = ($status ? "'t'" : "'f'");
@@ -219,6 +219,8 @@ function showLoginForm($error='') {
 	
 	//$login_image = "/dev/crm/images/pie_64x64.png";
 	print("
+		<html lang=\"en\">
+		<head>
 	    <meta name=\"application-name\" content=\"Web 2.0 CRM\"/>
 	    <meta name=\"description\" content=\"Web 2.0 Customer Relations Manager\"/>
 	    <link rel=\"icon\" href=\"../images/pie_48x48.png\" sizes=\"48x48\"/>
@@ -231,19 +233,28 @@ function showLoginForm($error='') {
 				z-Index: 1000; 
 				position: absolute; 
 				border: 1px solid silver; 
-				background: #e2eaf1; 
+				background: #ecf3f9; 
 				border-radius: 5px; 
 				-moz-border-radius: 5px; 
 				-webkit-border-radius: 5px;
-				box-shadow: 1px 1px 20px #d3d3d3; 
-				-moz-box-shadow: 1px 1px 20px #d3d3d3; 
-				-webkit-box-shadow: 1px 1px 20px #d3d3d3; 
+				box-shadow: 1px 1px 20px #ddd; 
+				-moz-box-shadow: 1px 1px 20px #ddd;
+				-webkit-box-shadow: 1px 1px 20px #ddd; 
 			}
 		</style>
+		</head>
+		<!-- 
+			http://i32.photobucket.com/albums/d3/Devil044/VegasStrip.jpg
+			http://img5.imageshack.us/img5/979/1280x1024background.png
+			http://lh3.ggpht.com/_fxkujw2mA9U/TBBheM1m3yI/AAAAAAAAAPs/uKFlfn704Q8/e365/y_a_b_02.jpg
+			http://lh6.ggpht.com/_fxkujw2mA9U/TAhwYa3EGlI/AAAAAAAAAIo/Wi7XY2Bxgrc/05_natgeo_10.jpg
+			http://lh6.ggpht.com/_MhpT8rS2lx0/SgUI4fyXFWI/AAAAAAAAPKA/t50gchXqINY/4c686e9344f01deab89ba%2526690.jpg
+		-->
+		<body style=\"background-image: url(images/login_bg.png);\">
 		<br>
 		<table style='width: 100%'><tr><td align=center>
-			".($login_image != "" ? "<img src=\"$login_image\"><br><br>" : "")."
-			".($error != "" ? "<div style='width: 300px; font-size: 12px; color: red; border: 1px solid #facd44; margin: 5px; padding: 5px; border-radius: 5px; -moz-border-radius: 5px; background-color: #ffedb6;'>$error</span></div><br><br>" : "<br><br>")."
+			".($login_image != "" ? "<img src=\"$login_image\"><br><br>" : "<br><br><br><br><br>")."
+			".($error != "" ? "<div style='width: 300px; font-size: 12px; color: red; border: 1px solid #facd44; margin: 5px; padding: 5px; border-radius: 5px; -moz-border-radius: 5px; background-color: #ffedb6;'>$error</span></div><br><br>" : "<br><br><br>")."
 			<div style='width: 300px; height: 220px; ".($isIE ? "margin-left: -300px;" : "")."'>
 			<form method='post'>
 				<input type=hidden name=url_error   value='$url_error'>
@@ -252,13 +263,13 @@ function showLoginForm($error='') {
 					<table cellspacing=4 cellpadding=3 style='margin: 10px'>
 					<tr>
 						<td style='padding-bottom: 10px;'> 
-							<span style='color: #555555;'>User Name</span> 
+							<span style='color: #999; font-weight: bold;'>User Name</span> 
 							<div style='height: 5px; font-size: 1px;'>&nbsp;</div> 
 							<input type=text id=\"login\" name=\"login\" size=25 style=\"padding: 3px; height: 30px; border: 1px solid silver; font-size: 18px\"> 
 						</td>
 					</tr><tr>
 						<td> 
-							<span style='color: #555555;'>Password</span> 
+							<span style='color: #999; font-weight: bold;'>Password</span> 
 							<div style='height: 5px; font-size: 1px;'>&nbsp;</div> 
 							<input type=password id=\"pass\" name=\"pass\" size=25 style=\"padding: 3px; height: 30px; border: 1px solid silver; font-size: 18px\"> 
 						</td>
@@ -276,6 +287,7 @@ function showLoginForm($error='') {
 			".($isIE ? "<br><br><span style='color: 4e733b; font-size: 11px; font-family: verdana'>For a better user experience, please use <b>FireFox</b> or <b>Google Chrome</b> browser.</span>" : "")."
 		</td></tr></table>
 		
+		</body>
 		<script src='$sys_path/libs/jsUtils.php'></script>
 		<script> 
 			window.onload   = pload;
@@ -289,6 +301,7 @@ function showLoginForm($error='') {
 				//top.jsUtils.dropShadow(document.getElementById('login_tbl'), true);
 			}
 		</script>
+		</html>
 	");
 }
 ?>
