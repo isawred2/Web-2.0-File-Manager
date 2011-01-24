@@ -25,16 +25,11 @@ $ses_data   	  = '';
 $ses_userid 	  = '';
 
 // system variables
-//$sys_folder 	  = str_replace("/security.php", "", str_replace("\\","/",__FILE__));
-//$sys_path  	 	  = substr($sys_folder, strlen($_SERVER["DOCUMENT_ROOT"]));
-
-// custom for web 2.0 crm
-$tmp = split("\/", $_SERVER['SCRIPT_NAME']);
-$sys_folder = $_SERVER['DOCUMENT_ROOT']."/".$tmp[1]."/".$tmp[2]."/system";
-$sys_path 	= "/".$tmp[1]."/".$tmp[2]."/system";
+$sys_folder 	  = str_replace("/security.php", "", str_replace("\\","/",__FILE__));
+$sys_path  	 	  = substr($sys_folder, strlen($_SERVER["DOCUMENT_ROOT"]));
 
 require_once($sys_folder."/../conf.php");
-if ($def_dbUsers === true) require_once($sys_folder."/libs/phpDB.php");
+if ($def_dbInit === true) require_once($sys_folder."/libs/phpDB.php");
 
 class phpSecurity {
 	// public properties
@@ -46,7 +41,7 @@ class phpSecurity {
     var $browserName 	= "-unknown-";
 
 	function __construct() {
-		global $db, $sys_folder, $sys_path, $def_dbSession;
+		global $db, $sys_folder, $sys_path, $def_dbSession, $def_dbInit;
 		global $sys_dbType, $sys_dbIP, $sys_dbLogin, $sys_dbPass, $sys_dbName, $sys_dbPrefix;
 		global $initSession;
 		
@@ -55,7 +50,7 @@ class phpSecurity {
 	    $this->time_start = (float)$usec + (float)$sec;
 		
 		// system database
-		if ($def_dbUsers === true) {
+		if ($def_dbInit === true) {
 			$db = new phpDBConnection($sys_dbType);
 			$db->connect($sys_dbIP, $sys_dbLogin, $sys_dbPass, $sys_dbName);
 		}
@@ -83,7 +78,7 @@ class phpSecurity {
 	}
 
 	function start() {
-		global $title, $def_defaultCSS, $def_encoding;
+		global $title, $def_css, $def_encoding;
 		global $sys_path, $sys_folder;
 		global $output, $outside;
 		global $sys_home;
@@ -100,8 +95,9 @@ class phpSecurity {
 			print("<html>\n");
 			print("<head>\n");
 		    print("   <title>$title</title>\n");
-			print("   <link rel=\"stylesheet\" href=\"$sys_path/images/$def_defaultCSS\" type=\"text/css\" />\n");
-			print("   <link rel=\"stylesheet\" href=\"$sys_path/images/buttons.css?1\" type=\"text/css\" />\n");
+			foreach($def_css as $k => $v) {
+				print("   <link rel=\"stylesheet\" href=\"$sys_path/images/$v\" type=\"text/css\" />\n");
+			}
 			print("   <meta http-equiv=\"Content-Type\" content=\"$def_encoding\" />\n");
 			if ($outputCloseHeader !== false) print("</head>\n");
 		}
