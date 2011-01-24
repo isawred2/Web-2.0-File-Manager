@@ -11,7 +11,7 @@
 *
 ********************************************************/
 
-$output  = false; 
+$output  = false;
 $outside = true;
 require("security.php");
 
