@@ -416,7 +416,7 @@ function edit_save($db, $reqParams, $post, $table, $kfield, $stayHere=false) {
 
 function edit_finish($reqParams) {
 	print("<script>
-			  parent.all.elements['".$reqParams["req_name"]."'].saveDone(".$reqParams["req_recid"].");
+			  top.elements['".$reqParams["req_name"]."'].saveDone(".$reqParams["req_recid"].");
 		   </script>
 		   ");
 }
