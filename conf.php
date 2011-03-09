@@ -8,6 +8,7 @@
 // -- basic settions
 $def_archive 	= 'zip'; // can be: zip, tar, tar.bz, tar.gz
 $def_safeFiles  = ''; // if blank - all safe, otherwise safe file extanctions separated by comma for example 'jpg,gif,doc,xls'
+$def_dbInit		= false;
 $def_dbSession  = false;
 $def_dbUsers	= false;
 
